@@ -32,7 +32,7 @@ class SchemaDiffer implements EntityDifferStrategy {
 			throw new InvalidArgumentException( '$from and $to must be instances of Schema' );
 		}
 
-		$diffOps = $this->diffPropertyArrays(
+		$diffOps = $this->diffSchemaArrays(
 			$this->toDiffArray( $from ),
 			$this->toDiffArray( $to )
 		);
@@ -47,7 +47,7 @@ class SchemaDiffer implements EntityDifferStrategy {
 			throw new InvalidArgumentException( '$entity must be an instance of Schema' );
 		}
 
-		$diffOps = $this->diffPropertyArrays( [], $this->toDiffArray( $entity ) );
+		$diffOps = $this->diffSchemaArrays( [], $this->toDiffArray( $entity ) );
 
 		// FIXME: do schema text diff here?
 		return new EntityDiff( $diffOps );
@@ -58,13 +58,13 @@ class SchemaDiffer implements EntityDifferStrategy {
 			throw new InvalidArgumentException( '$entity must be an instance of Schema' );
 		}
 
-		$diffOps = $this->diffPropertyArrays( $this->toDiffArray( $entity ), [] );
+		$diffOps = $this->diffSchemaArrays( $this->toDiffArray( $entity ), [] );
 
 		// FIXME: do schema text diff here?
 		return new EntityDiff( $diffOps );
 	}
 
-	private function diffPropertyArrays( array $from, array $to ): array {
+	private function diffSchemaArrays( array $from, array $to ): array {
 		return $this->recursiveMapDiffer->doDiff( $from, $to );
 	}
 
@@ -74,6 +74,7 @@ class SchemaDiffer implements EntityDifferStrategy {
 		$array['aliases'] = $schema->getAliasGroups()->toTextArray();
 		$array['label'] = $schema->getLabels()->toTextArray();
 		$array['description'] = $schema->getDescriptions()->toTextArray();
+		$array['schemaText'] = $schema->getSchemaText();
 
 		return $array;
 	}
