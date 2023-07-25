@@ -167,17 +167,7 @@ return [
 			throw new LogicException( 'TODO' );
 		},
 		Def::ENTITY_REFERENCE_EXTRACTOR_CALLBACK => static function () {
-			$statementEntityReferenceExtractor = new StatementEntityReferenceExtractor(
-				WikibaseRepo::getItemUrlParser()
-			);
-			return new EntityReferenceExtractorCollection( [
-				new LanguageItemIdExtractor(),
-				new LexicalCategoryItemIdExtractor(),
-				new GrammaticalFeatureItemIdsExtractor(),
-				$statementEntityReferenceExtractor,
-				new FormsStatementEntityReferenceExtractor( $statementEntityReferenceExtractor ),
-				new SensesStatementEntityReferenceExtractor( $statementEntityReferenceExtractor ),
-			] );
+			return new EntityReferenceExtractorCollection( [] );
 		},
 	],
 ];
