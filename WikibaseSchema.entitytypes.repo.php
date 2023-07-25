@@ -81,7 +81,7 @@ return [
 			return SchemaHandler::factory( $services, $requestContext );
 		},
 		Def::ENTITY_FACTORY_CALLBACK => static function () {
-			return new Lexeme();
+			return new Schema();
 		},
 		Def::CHANGEOP_DESERIALIZER_CALLBACK => static function () {
 			$services = MediaWikiServices::getInstance();
