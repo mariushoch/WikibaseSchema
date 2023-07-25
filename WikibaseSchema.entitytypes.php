@@ -56,7 +56,7 @@ return [
 			return new SchemaId( SerializableEntityId::joinSerialization( [
 				$repositoryName,
 				'',
-				'L' . $uniquePart
+				'S' . $uniquePart
 			] ) );
 		},
 
