@@ -84,7 +84,10 @@ use Wikimedia\Purtle\RdfWriter;
 return [
 	'schema' => [
 		Def::STORAGE_SERIALIZER_FACTORY_CALLBACK => static function ( SerializerFactory $serializerFactory ) {
-			return new SchemaSerializer();
+			return new SchemaSerializer(
+				$serializerFactory->newTermListSerializer(),
+				$serializerFactory->newAliasGroupListSerializer()
+			);
 		},
 		Def::VIEW_FACTORY_CALLBACK => static function (
 			Language $language,

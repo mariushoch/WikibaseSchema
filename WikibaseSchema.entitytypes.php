@@ -55,12 +55,6 @@ return [
 				'L' . $uniquePart
 			] ) );
 		},
-		Def::ENTITY_DIFFER_STRATEGY_BUILDER => static function () {
-			throw new LogicException( 'TODO' );
-		},
-		Def::ENTITY_PATCHER_STRATEGY_BUILDER => static function () {
-			throw new LogicException( 'TODO' );
-		},
 
 		// Identifier of a resource loader module that, when `require`d, returns a function
 		// returning a deserializer
