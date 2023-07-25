@@ -25,6 +25,18 @@
 			"Wikibase\\Schema\\WikibaseSchemaHooks::onWikibaseClientEntityTypes"
 		]
 	},
+	"namespaces": [
+		{
+			"id": 642,
+			"constant": "NS_WIKIBASE_SCHEMA",
+			"name": "Schema"
+		},
+		{
+			"id": 644,
+			"constant": "NS_WIKIBASE_SCHEMA_TALK",
+			"name": "Schema_Talk"
+		}
+	],
 	"MessagesDirs": {
 		"WikibaseSchema": [
 			"i18n"
