@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace Wikibase\Lexeme;
+namespace Wikibase\Schema;
 
 /**
  * MediaWiki hook handlers for the Wikibase Lexeme extension.
