@@ -23,14 +23,14 @@ class Schema implements
 	AliasesProvider {
 
 	private ?SchemaId $id;
-	private ?Fingerprint $fingerprint;
+	private Fingerprint $fingerprint;
 	private string $schemaText;
 
 	public const ENTITY_TYPE = 'schema';
 
 	public function __construct( SchemaId $id = null, Fingerprint $fingerprint = null, string $schemaText = '' ) {
 		$this->id = $id;
-		$this->fingerprint = $fingerprint;
+		$this->fingerprint = $fingerprint ?: new Fingerprint();
 		$this->schemaText = $schemaText;
 	}
 
