@@ -23,6 +23,8 @@ use Wikibase\Lib\TermLanguageFallbackChain;
 use Wikibase\Repo\ParserOutput\EntityTermsViewFactory;
 use Wikibase\Repo\WikibaseRepo;
 use Wikibase\Schema\Domain\Model\SchemaId;
+use Wikibase\Schema\Presentation\Diff\SchemaDiffer;
+use Wikibase\Schema\Presentation\Diff\SchemaPatcher;
 use Wikibase\Schema\Serialization\SchemaDeserializer;
 use Wikibase\Schema\Serialization\SchemaSerializer;
 use Wikibase\View\Template\TemplateFactory;
@@ -65,6 +67,12 @@ return [
 		Def::JS_DESERIALIZER_FACTORY_FUNCTION => 'TODO',
 		Def::PREFETCHING_TERM_LOOKUP_CALLBACK => static function () {
 			return new NullPrefetchingTermLookup();
+		},
+		Def::ENTITY_DIFFER_STRATEGY_BUILDER => function() {
+			return new SchemaDiffer();
+		},
+		Def::ENTITY_PATCHER_STRATEGY_BUILDER => function() {
+			return new SchemaPatcher();
 		},
 	],
 ];
