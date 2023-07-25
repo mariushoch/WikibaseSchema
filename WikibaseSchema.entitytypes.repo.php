@@ -39,10 +39,13 @@ use Wikibase\Repo\Diff\ClaimDiffer;
 use Wikibase\Repo\Diff\ClaimDifferenceVisualizer;
 use Wikibase\Repo\EntityReferenceExtractors\EntityReferenceExtractorCollection;
 use Wikibase\Repo\EntityReferenceExtractors\StatementEntityReferenceExtractor;
+use Wikibase\Repo\ParserOutput\EntityTermsViewFactory;
 use Wikibase\Repo\Store\Store;
 use Wikibase\Repo\Validators\EntityExistsValidator;
 use Wikibase\Repo\WikibaseRepo;
+use Wikibase\Schema\Domain\Model\Schema;
 use Wikibase\Schema\Serialization\SchemaSerializer;
+use Wikibase\View\Template\TemplateFactory;
 
 return [
 	'schema' => [
@@ -52,18 +55,23 @@ return [
 				$serializerFactory->newAliasGroupListSerializer()
 			);
 		},
-		Def::VIEW_FACTORY_CALLBACK => static function (
+		Def::VIEW_FACTORY_CALLBACK => static function(
 			Language $language,
-			TermLanguageFallbackChain $termFallbackChain,
+			TermLanguageFallbackChain $fallbackChain,
 			EntityDocument $entity
 		) {
-			throw new LogicException( 'TODO' );
-			$factory = new LexemeViewFactory(
-				$language,
-				$termFallbackChain
+			return new SchemaView(
+				TemplateFactory::getDefaultInstance(),
+				WikibaseRepo::getLanguageDirectionalityLookup(),
+				$language->getCode(),
+				( new EntityTermsViewFactory() )
+					->newEntityTermsView(
+						$entity,
+						$language,
+						$fallbackChain,
+						false // TODO: use modern termbox?
+					)
 			);
-
-			return $factory->newLexemeView();
 		},
 		Def::CONTENT_MODEL_ID => LexemeContent::CONTENT_MODEL_ID,
 		Def::CONTENT_HANDLER_FACTORY_CALLBACK => static function () {

@@ -47,24 +47,6 @@ return [
 				$deserializerFactory->newAliasGroupListDeserializer(),
 			);
 		},
-		Def::VIEW_FACTORY_CALLBACK => function(
-			Language $language,
-			TermLanguageFallbackChain $fallbackChain,
-			EntityDocument $entity
-		) {
-			return new SchemaView(
-				TemplateFactory::getDefaultInstance(),
-				WikibaseRepo::getLanguageDirectionalityLookup(),
-				$language->getCode(),
-				( new EntityTermsViewFactory() )
-					->newEntityTermsView(
-						$entity,
-						$language,
-						$fallbackChain,
-						false // TODO: use modern termbox?
-					)
-			);
-		},
 
 		Def::ENTITY_ID_PATTERN => SchemaId::PATTERN,
 		Def::ENTITY_ID_BUILDER => static function ( $serialization ) {
