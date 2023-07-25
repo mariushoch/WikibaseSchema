@@ -44,6 +44,7 @@ use Wikibase\Repo\Store\Store;
 use Wikibase\Repo\Validators\EntityExistsValidator;
 use Wikibase\Repo\WikibaseRepo;
 use Wikibase\Schema\Domain\Model\Schema;
+use Wikibase\Schema\MediaWiki\Content\SchemaContent;
 use Wikibase\Schema\MediaWiki\Content\SchemaHandler;
 use Wikibase\Schema\Serialization\SchemaSerializer;
 use Wikibase\View\Template\TemplateFactory;
@@ -74,7 +75,7 @@ return [
 					)
 			);
 		},
-		Def::CONTENT_MODEL_ID => LexemeContent::CONTENT_MODEL_ID,
+		Def::CONTENT_MODEL_ID => SchemaContent::CONTENT_MODEL_ID,
 		Def::CONTENT_HANDLER_FACTORY_CALLBACK => static function () {
 			$services = MediaWikiServices::getInstance();
 			$requestContext = RequestContext::getMain();
