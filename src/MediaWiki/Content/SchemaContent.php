@@ -4,11 +4,9 @@ namespace Wikibase\Schema\MediaWiki\Content;
 
 use InvalidArgumentException;
 use LogicException;
-use MediaWiki\MediaWikiServices;
 use Title;
 use Wikibase\DataModel\Entity\EntityRedirect;
-use Wikibase\Lexeme\Domain\Model\Schema;
-use Wikibase\Lexeme\Presentation\Content\LemmaTextSummaryFormatter;
+use Wikibase\Schema\Domain\Model\Schema;
 use Wikibase\Repo\Content\EntityContent;
 use Wikibase\Repo\Content\EntityHolder;
 
@@ -35,11 +33,6 @@ class SchemaContent extends EntityContent {
 	private $redirectTitle;
 
 	/**
-	 * @var LemmaTextSummaryFormatter
-	 */
-	private $summaryFormatter;
-
-	/**
 	 * @param EntityHolder|null $schemaHolder
 	 *
 	 * @throws InvalidArgumentException
@@ -58,10 +51,6 @@ class SchemaContent extends EntityContent {
 		}
 
 		$this->schemaHolder = $schemaHolder;
-
-		$this->summaryFormatter = new LemmaTextSummaryFormatter(
-			MediaWikiServices::getInstance()->getContentLanguage()
-		);
 	}
 
 	public static function newFromRedirect( $redirect, $title ) {

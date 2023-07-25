@@ -2,13 +2,14 @@
 
 declare( strict_types = 1 );
 
-namespace Wikibase\Lexeme\MediaWiki\Content;
+namespace Wikibase\Schema\MediaWiki\Content;
 
 use EntitySchema\Domain\Model\SchemaId;
 use IContextSource;
 use Psr\Container\ContainerInterface;
 use Wikibase\DataModel\Entity\EntityIdParser;
-use Wikibase\Lexeme\Domain\Model\Schema;
+use Wikibase\DataModel\Term\Fingerprint;
+use Wikibase\Schema\Domain\Model\Schema;
 use Wikibase\Lib\Store\EntityContentDataCodec;
 use Wikibase\Repo\Content\EntityHandler;
 use Wikibase\Repo\Content\EntityHolder;
@@ -33,7 +34,7 @@ class SchemaHandler extends EntityHandler {
 		callable $legacyExportFormatDetector = null
 	) {
 		parent::__construct(
-			LexemeContent::CONTENT_MODEL_ID,
+			SchemaContent::CONTENT_MODEL_ID,
 			null, // TODO: this is unused in the parent class and has a TODO to be removed
 			$contentCodec,
 			$constraintProvider,
@@ -67,7 +68,8 @@ class SchemaHandler extends EntityHandler {
 	}
 
 	public function makeEmptyEntity(): Schema {
-		return new Schema();
+		// XXX: Should text be nullable instead?
+		return new Schema( null, new Fingerprint(), '' );
 	}
 
 	/** @inheritDoc */
@@ -94,7 +96,7 @@ class SchemaHandler extends EntityHandler {
 	}
 
 	public function getSpecialPageForCreation(): string {
-		return 'NewSchemaTBD';
+		return 'NewEntitySchema';
 	}
 
 }
