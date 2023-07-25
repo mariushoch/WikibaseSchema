@@ -44,6 +44,7 @@ use Wikibase\Repo\Store\Store;
 use Wikibase\Repo\Validators\EntityExistsValidator;
 use Wikibase\Repo\WikibaseRepo;
 use Wikibase\Schema\Domain\Model\Schema;
+use Wikibase\Schema\MediaWiki\Content\SchemaHandler;
 use Wikibase\Schema\Serialization\SchemaSerializer;
 use Wikibase\View\Template\TemplateFactory;
 
