@@ -12,7 +12,6 @@
  * @author Amir Sarabadani <ladsgroup@gmail.com>
  */
 
-use EntitySchema\Domain\Model\SchemaId;
 use Wikibase\DataAccess\NullPrefetchingTermLookup;
 use Wikibase\DataModel\Deserializers\DeserializerFactory;
 use Wikibase\DataModel\Entity\EntityDocument;
@@ -23,6 +22,7 @@ use Wikibase\Lib\Store\TitleLookupBasedEntityArticleIdLookup;
 use Wikibase\Lib\TermLanguageFallbackChain;
 use Wikibase\Repo\ParserOutput\EntityTermsViewFactory;
 use Wikibase\Repo\WikibaseRepo;
+use Wikibase\Schema\Domain\Model\SchemaId;
 use Wikibase\Schema\Serialization\SchemaDeserializer;
 use Wikibase\Schema\Serialization\SchemaSerializer;
 use Wikibase\View\Template\TemplateFactory;
