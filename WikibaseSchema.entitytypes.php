@@ -34,7 +34,11 @@ return [
 			return new SchemaSerializer();
 		},
 		Def::DESERIALIZER_FACTORY_CALLBACK => static function ( DeserializerFactory $deserializerFactory ) {
-			return new SchemaDeserializer();
+			return new SchemaDeserializer(
+				$deserializerFactory->newEntityIdDeserializer(),
+				$deserializerFactory->newTermListDeserializer(),
+				$deserializerFactory->newAliasGroupListDeserializer(),
+			);
 		},
 
 		Def::ENTITY_ID_PATTERN => SchemaId::PATTERN,
