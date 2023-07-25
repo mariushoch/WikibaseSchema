@@ -15,13 +15,17 @@
 use EntitySchema\Domain\Model\SchemaId;
 use Wikibase\DataAccess\NullPrefetchingTermLookup;
 use Wikibase\DataModel\Deserializers\DeserializerFactory;
+use Wikibase\DataModel\Entity\EntityDocument;
 use Wikibase\DataModel\Entity\SerializableEntityId;
 use Wikibase\DataModel\Serializers\SerializerFactory;
 use Wikibase\Lib\EntityTypeDefinitions as Def;
 use Wikibase\Lib\Store\TitleLookupBasedEntityArticleIdLookup;
+use Wikibase\Lib\TermLanguageFallbackChain;
+use Wikibase\Repo\ParserOutput\EntityTermsViewFactory;
 use Wikibase\Repo\WikibaseRepo;
 use Wikibase\Schema\Serialization\SchemaDeserializer;
 use Wikibase\Schema\Serialization\SchemaSerializer;
+use Wikibase\View\Template\TemplateFactory;
 
 return [
 	'schema' => [
@@ -41,6 +45,37 @@ return [
 				$deserializerFactory->newEntityIdDeserializer(),
 				$deserializerFactory->newTermListDeserializer(),
 				$deserializerFactory->newAliasGroupListDeserializer(),
+			);
+		},
+		Def::VIEW_FACTORY_CALLBACK => function(
+			Language $language,
+			TermLanguageFallbackChain $fallbackChain,
+			EntityDocument $entity
+		) {
+			return new SchemaView(
+				TemplateFactory::getDefaultInstance(),
+				WikibaseRepo::getLanguageDirectionalityLookup(),
+				$language->getCode(),
+				( new EntityTermsViewFactory() )
+					->newEntityTermsView(
+						$entity,
+						$language,
+						$fallbackChain,
+						false // TODO: use modern termbox?
+					)
+			);
+
+			$viewFactory = WikibaseRepo::getViewFactory();
+			return $viewFactory->newPropertyView(
+				$language,
+				$fallbackChain,
+				( new EntityTermsViewFactory() )
+					->newEntityTermsView(
+						$entity,
+						$language,
+						$fallbackChain,
+						false // TODO: use modern termbox?
+					)
 			);
 		},
 
