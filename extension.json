@@ -23,7 +23,7 @@
 		],
 		"WikibaseClientEntityTypes": [
 			"Wikibase\\Schema\\WikibaseSchemaHooks::onWikibaseClientEntityTypes"
-		],
+		]
 	},
 	"MessagesDirs": {
 		"WikibaseSchema": [
