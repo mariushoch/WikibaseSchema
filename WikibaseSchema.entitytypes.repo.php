@@ -40,6 +40,7 @@ use Wikibase\Repo\ParserOutput\EntityTermsViewFactory;
 use Wikibase\Repo\Store\Store;
 use Wikibase\Repo\Validators\EntityExistsValidator;
 use Wikibase\Repo\WikibaseRepo;
+use Wikibase\Schema\ChangeOp\Deserialization\SchemaChangeOpDeserializer;
 use Wikibase\Schema\Domain\Model\Schema;
 use Wikibase\Schema\MediaWiki\Content\SchemaContent;
 use Wikibase\Schema\MediaWiki\Content\SchemaHandler;
@@ -84,71 +85,9 @@ return [
 		},
 		Def::CHANGEOP_DESERIALIZER_CALLBACK => static function () {
 			$services = MediaWikiServices::getInstance();
-			$changeOpFactoryProvider = WikibaseRepo::getChangeOpFactoryProvider( $services );
-			$statementChangeOpDeserializer = new ClaimsChangeOpDeserializer(
-				WikibaseRepo::getExternalFormatStatementDeserializer( $services ),
-				$changeOpFactoryProvider->getStatementChangeOpFactory()
+			return new SchemaChangeOpDeserializer(
+				WikibaseRepo::getChangeOpDeserializerFactory( $services )
 			);
-			$entityLookup = WikibaseRepo::getStore( $services )->getEntityLookup(
-				Store::LOOKUP_CACHING_DISABLED,
-				LookupConstants::LATEST_FROM_MASTER
-			);
-			$itemValidator = new EntityExistsValidator( $entityLookup, 'item' );
-			$entityIdParser = WikibaseRepo::getEntityIdParser( $services );
-			$stringNormalizer = WikibaseRepo::getStringNormalizer( $services );
-			$lexemeChangeOpDeserializer = new LexemeChangeOpDeserializer(
-				new LemmaChangeOpDeserializer(
-				// TODO: WikibaseRepo should probably provide this validator?
-				// TODO: WikibaseRepo::getTermsLanguage is not necessarily the list of language codes
-				// that should be allowed as "languages" of lemma terms
-					new LexemeTermSerializationValidator(
-						new LexemeTermLanguageValidator( WikibaseLexemeServices::getTermLanguages() )
-					),
-					WikibaseLexemeServices::getLemmaTermValidator( $services ),
-					$stringNormalizer
-				),
-				new LexicalCategoryChangeOpDeserializer(
-					$itemValidator,
-					$stringNormalizer
-				),
-				new LanguageChangeOpDeserializer(
-					$itemValidator,
-					$stringNormalizer
-				),
-				$statementChangeOpDeserializer,
-				new FormListChangeOpDeserializer(
-					new FormIdDeserializer( $entityIdParser ),
-					new FormChangeOpDeserializer(
-						$entityLookup,
-						$entityIdParser,
-						WikibaseLexemeServices::getEditFormChangeOpDeserializer()
-					)
-				),
-				new SenseListChangeOpDeserializer(
-					new SenseIdDeserializer( $entityIdParser ),
-					new SenseChangeOpDeserializer(
-						$entityLookup,
-						$entityIdParser,
-						new EditSenseChangeOpDeserializer(
-							new GlossesChangeOpDeserializer(
-								new TermDeserializer(),
-								$stringNormalizer,
-								new LexemeTermSerializationValidator(
-									new LexemeTermLanguageValidator( WikibaseLexemeServices::getTermLanguages() )
-								)
-							),
-							new ClaimsChangeOpDeserializer(
-								WikibaseRepo::getExternalFormatStatementDeserializer(),
-								$changeOpFactoryProvider->getStatementChangeOpFactory()
-							)
-						)
-					)
-				)
-			);
-			$lexemeChangeOpDeserializer->setContext(
-				ValidationContext::create( EditEntity::PARAM_DATA )
-			);
-			return $lexemeChangeOpDeserializer;
 		},
 		Def::ENTITY_DIFF_VISUALIZER_CALLBACK => static function (
 			MessageLocalizer $messageLocalizer,
