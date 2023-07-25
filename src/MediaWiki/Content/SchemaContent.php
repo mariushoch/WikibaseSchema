@@ -7,12 +7,10 @@ use LogicException;
 use MediaWiki\MediaWikiServices;
 use Title;
 use Wikibase\DataModel\Entity\EntityRedirect;
-use Wikibase\Lexeme\Domain\Model\Lexeme;
 use Wikibase\Lexeme\Domain\Model\Schema;
 use Wikibase\Lexeme\Presentation\Content\LemmaTextSummaryFormatter;
 use Wikibase\Repo\Content\EntityContent;
 use Wikibase\Repo\Content\EntityHolder;
-use Wikimedia\Assert\Assert;
 
 /**
  * @license GPL-2.0-or-later
@@ -86,15 +84,15 @@ class SchemaContent extends EntityContent {
 	/**
 	 * @see EntityContent::getEntity
 	 *
-	 * @return Lexeme
+	 * @return Schema
 	 */
-	public function getEntity() {
+	public function getEntity(): Schema {
 		if ( !$this->schemaHolder ) {
 			throw new LogicException( 'This content object is empty!' );
 		}
 
 		// @phan-suppress-next-line PhanTypeMismatchReturnSuperType
-		return $this->schemaHolder->getEntity( Lexeme::class );
+		return $this->schemaHolder->getEntity( Schema::class );
 	}
 
 	/**
@@ -105,7 +103,7 @@ class SchemaContent extends EntityContent {
 	 * @return bool
 	 */
 	public function isCountable( $hasLinks = null ) {
-		return !$this->isRedirect() && !$this->getEntity()->isEmpty();
+		return true;
 	}
 
 	/**
@@ -126,17 +124,6 @@ class SchemaContent extends EntityContent {
 	}
 
 	/**
-	 * @see EntityContent::isValid
-	 *
-	 * @return bool
-	 */
-	public function isValid() {
-		return parent::isValid()
-			&& ( $this->isRedirect()
-			|| $this->getEntity()->isSufficientlyInitialized() );
-	}
-
-	/**
 	 * Make text representation of the Lexeme as list of all lemmas and form representations.
 	 * @see EntityContent::getTextForSearchIndex()
 	 */
@@ -144,31 +131,4 @@ class SchemaContent extends EntityContent {
 		return 'TODO';
 	}
 
-	private function constructAsRedirect( EntityRedirect $redirect, Title $redirectTitle = null ) {
-		if ( $redirectTitle === null ) {
-			throw new InvalidArgumentException(
-				'$redirect and $redirectTitle must both be provided or both be empty.'
-			);
-		}
-
-		$this->redirect = $redirect;
-		$this->redirectTitle = $redirectTitle;
-	}
-
-	/**
-	 * Returns a textual representation of the content suitable for use in edit summaries and log messages.
-	 *
-	 * @param int $maxLength maximum length of the summary text
-	 * @return string
-	 */
-	public function getTextForSummary( $maxLength = 250 ) {
-		if ( $this->isRedirect() ) {
-			return $this->getRedirectText();
-		}
-
-		return $this->summaryFormatter->getSummary(
-			$this->getEntity()->getLemmas(),
-			$maxLength
-		);
-	}
 }
