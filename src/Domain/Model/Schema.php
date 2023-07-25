@@ -90,4 +90,8 @@ class Schema implements
 		return $this->schemaText;
 	}
 
+	public function setSchemaText( string $schemaText ): void {
+		$this->schemaText = $schemaText;
+	}
+
 }
