@@ -14,6 +14,7 @@ use Wikibase\Repo\Diff\ClaimDiffer;
 use Wikibase\Repo\Diff\ClaimDifferenceVisualizer;
 use Wikibase\Repo\EntityReferenceExtractors\EntityReferenceExtractorCollection;
 use Wikibase\Repo\ParserOutput\EntityTermsViewFactory;
+use Wikibase\Repo\ParserOutput\TermboxFlag;
 use Wikibase\Repo\WikibaseRepo;
 use Wikibase\Schema\ChangeOp\Deserialization\SchemaChangeOpDeserializer;
 use Wikibase\Schema\Domain\Model\Schema;
@@ -45,7 +46,7 @@ return [
 						$entity,
 						$language,
 						$fallbackChain,
-						false // TODO: use modern termbox?
+						TermboxFlag::getInstance()->shouldRenderTermbox() // TODO: use modern termbox? Seems this needs to be consistent with Wikibase?!
 					)
 			);
 		},

@@ -37,6 +37,27 @@
 			"name": "Schema_Talk"
 		}
 	],
+	"ResourceFileModulePaths": {
+		"localBasePath": "resources",
+		"remoteExtPath": "WikibaseSchema/resources"
+	},
+	"ResourceModules": {
+		"wikibase.schema.getDeserializer": {
+			"packageFiles": [
+					"getDeserializer.js",
+
+					"serialization/SchemaDeserializer.js",
+					"datamodel/Schema.js"
+			],
+			"dependencies": [
+					"util.inherit",
+					"wikibase.lexeme",
+					"wikibase.datamodel",
+					"wikibase.lexeme.datamodel",
+					"wikibase.serialization"
+			]
+		}
+	},
 	"MessagesDirs": {
 		"WikibaseSchema": [
 			"i18n"

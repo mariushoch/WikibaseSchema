@@ -61,10 +61,9 @@ return [
 				'S' . $uniquePart
 			] ) );
 		},
-
 		// Identifier of a resource loader module that, when `require`d, returns a function
 		// returning a deserializer
-		Def::JS_DESERIALIZER_FACTORY_FUNCTION => 'TODO',
+		Def::JS_DESERIALIZER_FACTORY_FUNCTION => 'wikibase.schema.getDeserializer',
 		Def::PREFETCHING_TERM_LOOKUP_CALLBACK => static function () {
 			return new NullPrefetchingTermLookup();
 		},
