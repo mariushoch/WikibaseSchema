@@ -86,4 +86,8 @@ class Schema implements
 		return $this->fingerprint->getLabels();
 	}
 
+	public function getSchemaText(): string {
+		return $this->schemaText;
+	}
+
 }

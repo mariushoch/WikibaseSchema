@@ -31,7 +31,10 @@ return [
 			);
 		},
 		Def::SERIALIZER_FACTORY_CALLBACK => static function ( SerializerFactory $serializerFactory ) {
-			return new SchemaSerializer();
+			return new SchemaSerializer(
+				$serializerFactory->newTermListSerializer(),
+				$serializerFactory->newAliasGroupListSerializer()
+			);
 		},
 		Def::DESERIALIZER_FACTORY_CALLBACK => static function ( DeserializerFactory $deserializerFactory ) {
 			return new SchemaDeserializer(
