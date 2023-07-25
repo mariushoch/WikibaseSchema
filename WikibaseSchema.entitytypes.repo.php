@@ -1,44 +1,19 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
-use Wikibase\DataModel\Deserializers\TermDeserializer;
 use Wikibase\DataModel\Entity\EntityDocument;
 use Wikibase\DataModel\Serializers\SerializerFactory;
 use Wikibase\DataModel\Services\EntityId\EntityIdFormatter;
-use Wikibase\Lexeme\DataAccess\ChangeOp\Validation\LexemeTermLanguageValidator;
-use Wikibase\Lexeme\DataAccess\ChangeOp\Validation\LexemeTermSerializationValidator;
-use Wikibase\Lexeme\Domain\EntityReferenceExtractors\FormsStatementEntityReferenceExtractor;
-use Wikibase\Lexeme\Domain\EntityReferenceExtractors\GrammaticalFeatureItemIdsExtractor;
-use Wikibase\Lexeme\Domain\EntityReferenceExtractors\LanguageItemIdExtractor;
-use Wikibase\Lexeme\Domain\EntityReferenceExtractors\LexicalCategoryItemIdExtractor;
-use Wikibase\Lexeme\Domain\EntityReferenceExtractors\SensesStatementEntityReferenceExtractor;
-use Wikibase\Lexeme\Presentation\ChangeOp\Deserialization\EditSenseChangeOpDeserializer;
-use Wikibase\Lexeme\Presentation\ChangeOp\Deserialization\FormChangeOpDeserializer;
-use Wikibase\Lexeme\Presentation\ChangeOp\Deserialization\FormIdDeserializer;
-use Wikibase\Lexeme\Presentation\ChangeOp\Deserialization\FormListChangeOpDeserializer;
-use Wikibase\Lexeme\Presentation\ChangeOp\Deserialization\GlossesChangeOpDeserializer;
-use Wikibase\Lexeme\Presentation\ChangeOp\Deserialization\LanguageChangeOpDeserializer;
-use Wikibase\Lexeme\Presentation\ChangeOp\Deserialization\LemmaChangeOpDeserializer;
-use Wikibase\Lexeme\Presentation\ChangeOp\Deserialization\LexemeChangeOpDeserializer;
-use Wikibase\Lexeme\Presentation\ChangeOp\Deserialization\LexicalCategoryChangeOpDeserializer;
-use Wikibase\Lexeme\Presentation\ChangeOp\Deserialization\SenseChangeOpDeserializer;
-use Wikibase\Lexeme\Presentation\ChangeOp\Deserialization\SenseIdDeserializer;
-use Wikibase\Lexeme\Presentation\ChangeOp\Deserialization\SenseListChangeOpDeserializer;
-use Wikibase\Lexeme\Presentation\ChangeOp\Deserialization\ValidationContext;
-use Wikibase\Lexeme\WikibaseLexemeServices;
 use Wikibase\Lib\EntityTypeDefinitions as Def;
-use Wikibase\Lib\Store\LookupConstants;
+use Wikibase\Lib\Store\TitleLookupBasedEntityExistenceChecker;
+use Wikibase\Lib\Store\TitleLookupBasedEntityTitleTextLookup;
+use Wikibase\Lib\Store\TitleLookupBasedEntityUrlLookup;
 use Wikibase\Lib\TermLanguageFallbackChain;
-use Wikibase\Repo\Api\EditEntity;
-use Wikibase\Repo\ChangeOp\Deserialization\ClaimsChangeOpDeserializer;
 use Wikibase\Repo\Diff\BasicEntityDiffVisualizer;
 use Wikibase\Repo\Diff\ClaimDiffer;
 use Wikibase\Repo\Diff\ClaimDifferenceVisualizer;
 use Wikibase\Repo\EntityReferenceExtractors\EntityReferenceExtractorCollection;
-use Wikibase\Repo\EntityReferenceExtractors\StatementEntityReferenceExtractor;
 use Wikibase\Repo\ParserOutput\EntityTermsViewFactory;
-use Wikibase\Repo\Store\Store;
-use Wikibase\Repo\Validators\EntityExistsValidator;
 use Wikibase\Repo\WikibaseRepo;
 use Wikibase\Schema\ChangeOp\Deserialization\SchemaChangeOpDeserializer;
 use Wikibase\Schema\Domain\Model\Schema;
@@ -107,6 +82,21 @@ return [
 		},
 		Def::ENTITY_REFERENCE_EXTRACTOR_CALLBACK => static function () {
 			return new EntityReferenceExtractorCollection( [] );
+		},
+		Def::URL_LOOKUP_CALLBACK => static function () {
+			return new TitleLookupBasedEntityUrlLookup( WikibaseRepo::getEntityTitleLookup() );
+		},
+		Def::EXISTENCE_CHECKER_CALLBACK => static function () {
+			$services = MediaWikiServices::getInstance();
+			return new TitleLookupBasedEntityExistenceChecker(
+					WikibaseRepo::getEntityTitleLookup( $services ),
+					$services->getLinkBatchFactory()
+			);
+		},
+		Def::TITLE_TEXT_LOOKUP_CALLBACK => static function () {
+			return new TitleLookupBasedEntityTitleTextLookup(
+				WikibaseRepo::getEntityTitleLookup()
+			);
 		},
 	],
 ];
