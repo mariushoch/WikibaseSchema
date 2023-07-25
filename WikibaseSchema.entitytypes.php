@@ -64,19 +64,6 @@ return [
 						false // TODO: use modern termbox?
 					)
 			);
-
-			$viewFactory = WikibaseRepo::getViewFactory();
-			return $viewFactory->newPropertyView(
-				$language,
-				$fallbackChain,
-				( new EntityTermsViewFactory() )
-					->newEntityTermsView(
-						$entity,
-						$language,
-						$fallbackChain,
-						false // TODO: use modern termbox?
-					)
-			);
 		},
 
 		Def::ENTITY_ID_PATTERN => SchemaId::PATTERN,
