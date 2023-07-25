@@ -4,6 +4,8 @@ declare( strict_types = 1 );
 
 namespace Wikibase\Schema\Presentation\View;
 
+use InvalidArgumentException;
+use MediaWiki\Html\Html;
 use Wikibase\DataModel\Entity\EntityDocument;
 use Wikibase\DataModel\Term\AliasesProvider;
 use Wikibase\DataModel\Term\DescriptionsProvider;
