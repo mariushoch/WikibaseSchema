@@ -54,7 +54,13 @@
 					"wikibase.lexeme",
 					"wikibase.datamodel",
 					"wikibase.lexeme.datamodel",
-					"wikibase.serialization"
+					"wikibase.serialization",
+					"wikibase.schema.schemaview"
+			]
+		},
+		"wikibase.schema.schemaview": {
+			"scripts": [
+				"jquery.wikibase.schemaview.js"
 			]
 		}
 	},
