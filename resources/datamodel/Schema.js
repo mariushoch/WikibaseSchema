@@ -2,7 +2,7 @@
 	'use strict';
 
 	var datamodel = require( 'wikibase.datamodel' ),
-		PARENT = datamodel.Entity;
+		PARENT = datamodel.FingerprintableEntity;
 
 	/**
 	 * @class wikibase.schema.datamodel.Schema
