@@ -1,0 +1,34 @@
+{
+	"name": "WikibaseSchema",
+	"author": [],
+	"url": "TBD",
+	"descriptionmsg": "wikibaseschema-desc",
+	"license-name": "GPL-2.0-or-later",
+	"type": "wikibase",
+	"requires": {
+		"MediaWiki": ">= 1.40"
+	},
+	"load_composer_autoloader": true,
+	"AutoloadNamespaces": {
+		"Wikibase\\Schema\\": "src/"
+	},
+	"config": {
+	},
+	"Hooks": {
+		"WikibaseRepoEntityNamespaces": [
+			"Wikibase\\Schema\\WikibaseSchemaHooks::onWikibaseRepoEntityNamespaces"
+		],
+		"WikibaseRepoEntityTypes": [
+			"Wikibase\\Schema\\WikibaseSchemaHooks::onWikibaseRepoEntityTypes"
+		],
+		"WikibaseClientEntityTypes": [
+			"Wikibase\\Schema\\WikibaseSchemaHooks::onWikibaseClientEntityTypes"
+		],
+	},
+	"MessagesDirs": {
+		"WikibaseSchema": [
+			"i18n"
+		]
+	},
+	"manifest_version": 2
+}
