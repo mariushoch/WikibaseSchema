@@ -43,6 +43,7 @@ use Wikibase\Repo\WikibaseRepo;
 use Wikibase\Schema\Domain\Model\Schema;
 use Wikibase\Schema\MediaWiki\Content\SchemaContent;
 use Wikibase\Schema\MediaWiki\Content\SchemaHandler;
+use Wikibase\Schema\Presentation\View\SchemaView;
 use Wikibase\Schema\Serialization\SchemaSerializer;
 use Wikibase\View\Template\TemplateFactory;
 
