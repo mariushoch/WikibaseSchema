@@ -78,6 +78,16 @@
 				"WikibaseRepo.TermValidatorFactory",
 				"WikibaseRepo.ValidatorErrorLocalizer"
 			]
+		},
+		"SetSchemaText": {
+			"class": "Wikibase\\Schema\\MediaWiki\\Specials\\SpecialSetSchemaText",
+			"factory": "Wikibase\\Schema\\MediaWiki\\Specials\\SpecialSetSchemaText::factory",
+			"services": [
+				"WikibaseRepo.EditEntityFactory",
+				"WikibaseRepo.EntityTitleLookup",
+				"WikibaseRepo.Settings",
+				"WikibaseRepo.SummaryFormatter"
+			]
 		}
 	},
 	"ExtensionMessagesFiles": {

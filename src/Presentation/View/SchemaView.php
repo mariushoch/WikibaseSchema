@@ -6,11 +6,14 @@ namespace Wikibase\Schema\Presentation\View;
 
 use InvalidArgumentException;
 use MediaWiki\Html\Html;
+use MediaWiki\MediaWikiServices;
+use MediaWiki\Page\PageReferenceValue;
 use Wikibase\DataModel\Entity\EntityDocument;
 use Wikibase\DataModel\Term\AliasesProvider;
 use Wikibase\DataModel\Term\DescriptionsProvider;
 use Wikibase\DataModel\Term\LabelsProvider;
 use Wikibase\Schema\Domain\Model\Schema;
+use Wikibase\Schema\Domain\Model\SchemaId;
 use Wikibase\View\EntityTermsView;
 use Wikibase\View\EntityView;
 use Wikibase\View\LanguageDirectionalityLookup;
@@ -54,6 +57,7 @@ class SchemaView extends EntityView {
 		}
 
 		$html = $this->getHtmlForTerms( $entity )
+			. $this->getSchemaTextEditButton( $entity->getId() )
 			. $this->renderSchemaText( $entity->getSchemaText() );
 
 		return $html;
@@ -61,6 +65,16 @@ class SchemaView extends EntityView {
 
 	protected function getSideHtml( EntityDocument $entity ): string {
 		return '';
+	}
+
+	private function getSchemaTextEditButton( SchemaId $schemaId ): string {
+		// FIXME: This is almost certainly not the right place for generating these links. Also are we even editable?
+		$linker = MediaWikiServices::getInstance()->getLinkRenderer();
+
+		return $linker->makeLink(
+			new PageReferenceValue( NS_SPECIAL, 'SetSchemaText/' . $schemaId->getSerialization(), PageReferenceValue::LOCAL ),
+			wfMessage( 'edit' )
+		);
 	}
 
 	private function renderSchemaText( string $schemaText ): string {
