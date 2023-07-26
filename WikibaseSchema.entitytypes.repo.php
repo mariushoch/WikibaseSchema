@@ -9,6 +9,8 @@ use Wikibase\Lib\Store\TitleLookupBasedEntityExistenceChecker;
 use Wikibase\Lib\Store\TitleLookupBasedEntityTitleTextLookup;
 use Wikibase\Lib\Store\TitleLookupBasedEntityUrlLookup;
 use Wikibase\Lib\TermLanguageFallbackChain;
+use Wikibase\Repo\Api\CombinedEntitySearchHelper;
+use Wikibase\Repo\Api\EntityIdSearchHelper;
 use Wikibase\Repo\Diff\BasicEntityDiffVisualizer;
 use Wikibase\Repo\Diff\ClaimDiffer;
 use Wikibase\Repo\Diff\ClaimDifferenceVisualizer;
@@ -79,7 +81,16 @@ return [
 			);
 		},
 		Def::ENTITY_SEARCH_CALLBACK => static function ( WebRequest $request ) {
-			throw new LogicException( 'TODO' );
+			$language = WikibaseRepo::getUserLanguage();
+			return new CombinedEntitySearchHelper( [
+				new EntityIdSearchHelper(
+					WikibaseRepo::getEntityLookup(),
+					WikibaseRepo::getEntityIdParser(),
+					WikibaseRepo::getFallbackLabelDescriptionLookupFactory()
+						->newLabelDescriptionLookup( $language ),
+					WikibaseRepo::getEnabledEntityTypes()
+				)
+			] );
 		},
 		Def::ENTITY_REFERENCE_EXTRACTOR_CALLBACK => static function () {
 			return new EntityReferenceExtractorCollection( [] );
