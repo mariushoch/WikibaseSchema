@@ -9,6 +9,7 @@ use IContextSource;
 use Psr\Container\ContainerInterface;
 use Wikibase\DataModel\Entity\EntityIdParser;
 use Wikibase\DataModel\Term\Fingerprint;
+use Wikibase\Repo\Actions\ViewEntityAction;
 use Wikibase\Schema\Domain\Model\Schema;
 use Wikibase\Lib\Store\EntityContentDataCodec;
 use Wikibase\Repo\Content\EntityHandler;
@@ -64,7 +65,9 @@ class SchemaHandler extends EntityHandler {
 	 */
 	public function getActionOverrides(): array {
 		// TODO
-		return [];
+		return [
+			'view' => ViewEntityAction::class,
+		];
 	}
 
 	public function makeEmptyEntity(): Schema {
