@@ -64,6 +64,25 @@
 			]
 		}
 	},
+	"SpecialPages": {
+		"NewSchema": {
+			"class": "Wikibase\\Schema\\MediaWiki\\Specials\\SpecialNewSchema",
+			"factory": "Wikibase\\Schema\\MediaWiki\\Specials\\SpecialNewSchema::factory",
+			"services": [
+				"WikibaseRepo.EditEntityFactory",
+				"WikibaseRepo.EntityNamespaceLookup",
+				"WikibaseRepo.EntityTitleLookup",
+				"WikibaseRepo.MobileSite",
+				"WikibaseRepo.Settings",
+				"WikibaseRepo.SummaryFormatter",
+				"WikibaseRepo.TermValidatorFactory",
+				"WikibaseRepo.ValidatorErrorLocalizer"
+			]
+		}
+	},
+	"ExtensionMessagesFiles": {
+		"WikibaseSchemaAlias": "WikibaseSchema.i18n.alias.php"
+	},
 	"MessagesDirs": {
 		"WikibaseSchema": [
 			"i18n"
