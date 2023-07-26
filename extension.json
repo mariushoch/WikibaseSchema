@@ -14,7 +14,13 @@
 	},
 	"config": {
 	},
+	"HookHandlers": {
+		"DatabaseSchemaUpdater": {
+			"class": "\\Wikibase\\Schema\\DataAccess\\DatabaseSchemaUpdater"
+		}
+	},
 	"Hooks": {
+		"LoadExtensionSchemaUpdates": "DatabaseSchemaUpdater",
 		"WikibaseRepoEntityNamespaces": [
 			"Wikibase\\Schema\\WikibaseSchemaHooks::onWikibaseRepoEntityNamespaces"
 		],

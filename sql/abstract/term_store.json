@@ -1,0 +1,36 @@
+[
+	{
+		"name": "wbt_schema_terms",
+		"comment": "Stores a record per term per schema per language. Term text, type and language are normalized further through wb_term_in_lang table.",
+		"columns": [
+			{
+				"name": "wbit_id",
+				"type": "bigint",
+				"options": { "unsigned": true, "notnull": true, "autoincrement": true }
+			},
+			{
+				"name": "wbit_schema_id",
+				"type": "integer",
+				"options": { "unsigned": true, "notnull": true }
+			},
+			{
+				"name": "wbit_term_in_lang_id",
+				"type": "integer",
+				"options": { "unsigned": true, "notnull": true }
+			}
+		],
+		"indexes": [
+			{
+				"name": "wbt_schema_terms_schema_id",
+				"columns": [ "wbit_schema_id" ],
+				"unique": false
+			},
+			{
+				"name": "wbt_schema_terms_term_in_lang_id_schema_id",
+				"columns": [ "wbit_term_in_lang_id", "wbit_schema_id" ],
+				"unique": true
+			}
+		],
+		"pk": [ "wbit_id" ]
+	}
+]
