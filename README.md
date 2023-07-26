@@ -10,3 +10,7 @@ In Wikibase `repo/includes/RepoHooks.php` in the method `onBeforePageDisplayMobi
 
 If you now switch to mobile view (and the mobile Termbox works on Items and Properties for you),
 then it should now also work on WikibaseSchema Schemas.
+
+## Changes needed in other components
+
+This needs [WikibaseSerializationJavaScript pull #79](https://github.com/wmde/WikibaseSerializationJavaScript/pull/79) for the UI to fully function.
