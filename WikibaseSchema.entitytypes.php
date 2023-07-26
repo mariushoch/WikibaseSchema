@@ -12,6 +12,7 @@
  * @author Amir Sarabadani <ladsgroup@gmail.com>
  */
 
+use Wikibase\DataAccess\DatabaseEntitySource;
 use Wikibase\DataAccess\NullPrefetchingTermLookup;
 use Wikibase\DataModel\Deserializers\DeserializerFactory;
 use Wikibase\DataModel\Entity\EntityDocument;
@@ -22,6 +23,7 @@ use Wikibase\Lib\Store\TitleLookupBasedEntityArticleIdLookup;
 use Wikibase\Lib\TermLanguageFallbackChain;
 use Wikibase\Repo\ParserOutput\EntityTermsViewFactory;
 use Wikibase\Repo\WikibaseRepo;
+use Wikibase\Schema\DataAccess\PrefetchingSchemaTermLookup;
 use Wikibase\Schema\Domain\Model\SchemaId;
 use Wikibase\Schema\Presentation\Diff\SchemaDiffer;
 use Wikibase\Schema\Presentation\Diff\SchemaPatcher;
@@ -64,8 +66,11 @@ return [
 		// Identifier of a resource loader module that, when `require`d, returns a function
 		// returning a deserializer
 		Def::JS_DESERIALIZER_FACTORY_FUNCTION => 'wikibase.schema.getDeserializer',
-		Def::PREFETCHING_TERM_LOOKUP_CALLBACK => static function () {
-			return new NullPrefetchingTermLookup();
+		Def::PREFETCHING_TERM_LOOKUP_CALLBACK => static function ( DatabaseEntitySource $entitySource ) {
+			$termIdsResolver = WikibaseRepo::getTermInLangIdsResolverFactory()
+				->getResolverForEntitySource( $entitySource );
+
+			return new PrefetchingSchemaTermLookup( $termIdsResolver );
 		},
 		Def::ENTITY_DIFFER_STRATEGY_BUILDER => function() {
 			return new SchemaDiffer();
